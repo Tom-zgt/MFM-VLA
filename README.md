@@ -3,6 +3,7 @@
 [![arXiv](https://img.shields.io/badge/arXiv-2611.31452-b31b1b.svg)](https://arxiv.org/abs/2611.31452)
 [![Paper PDF](https://img.shields.io/badge/PDF-arXiv%202611.31452-2457c5.svg)](https://arxiv.org/pdf/2611.31452)
 [![Project Page](https://img.shields.io/badge/Project%20Page-MFM--VLA-0d7a75.svg)](https://tom-zgt.github.io/MFM-VLA/)
+[![Checkpoints](https://img.shields.io/badge/%F0%9F%A4%97%20Models-zhengzhou%2FMFM--VLA-ffb000.svg)](https://huggingface.co/zhengzhou/MFM-VLA)
 [![License](https://img.shields.io/badge/License-Apache%202.0-slate.svg)](LICENSE)
 
 **[Guangting Zheng](https://tom-zgt.github.io/)\*, Shaoxuan Wang\*, Yu Yuan, Zhipeng Tang, Jiajun Deng, Yanyong Zhang**  
@@ -34,8 +35,9 @@ Official codebase for **MFM-VLA**: a selective collaboration framework uniting *
 
 ## Quickstart
 
-### 1. Register Policies & Start the Adapted $\pi_{0.5}$ Policy Server
+### 1. Download Checkpoints & Start the Adapted $\pi_{0.5}$ Policy Server
 ```bash
+huggingface-cli download zhengzhou/MFM-VLA --local-dir ./checkpoints
 python3 openpi_configs/install_into_openpi.py --openpi-dir ./openpi
 bash scripts/serve_vla_policy.sh pi05_libero_dense_v3 ./checkpoints/mfm-vla-pi05-libero-pro 8130
 ```
