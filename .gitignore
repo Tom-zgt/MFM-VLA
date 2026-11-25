@@ -1,0 +1,6 @@
+serve_preview.py
+__pycache__/
+.DS_Store
+*.pdf
+*.tex
+*.bib

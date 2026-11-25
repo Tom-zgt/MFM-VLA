@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ground, Guide, Act — Improving VLA Spatial Generalization with Multimodal Foundation Models</title>
+
+<meta name="description" content="MFM-VLA: A selective collaboration framework where multimodal foundation models provide depth-free 3D target grounding and free-space spatial guidance while adapted Vision-Language-Action policies retain closed-loop contact manipulation.">
+<meta property="og:title" content="Ground, Guide, Act: Improving VLA Spatial Generalization with Multimodal Foundation Models">
+<meta property="og:description" content="Selective MFM–VLA collaboration via dense geometric policy adaptation, calibrated capability routing, and two-view RGB 3D spatial guidance.">
+<meta property="og:image" content="static/images/fig3_method.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/svg+xml" href="static/images/favicon.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [
+          {left: '\\[', right: '\\]', display: true},
+          {left: '\\(', right: '\\)', display: false}
+        ], throwOnError: false});"></script>
+
+<link rel="stylesheet" href="static/css/index.css">
+</head>
+
+<body>
+
+<!-- ==== STICKY TOP NAV ==== -->
+<header class="topnav">
+  <div class="topnav-inner">
+    <a class="brand" href="#top">
+      <img class="brand-icon" src="static/images/favicon.svg" alt="MFM-VLA icon">
+      <span>MFM-VLA</span>
+      <span class="brand-sub">Ground, Guide, Act</span>
+    </a>
+    <nav>
+      <a href="#abstract">Abstract</a>
+      <a href="#analysis">Diagnosis</a>
+      <a href="#method">Method</a>
+      <a href="#demos">Videos</a>
+      <a href="#results">Benchmarks</a>
+      <a href="#realworld">Real-World</a>
+      <a href="#ablations">Ablations</a>
+      <a href="#bibtex" class="is-cta">BibTeX</a>
+    </nav>
+  </div>
+</header>
+
+<a id="top"></a>
+
+<!-- ==== HERO ==== -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="venue-pill reveal">
+      <span class="dot"></span>
+      <span>Embodied Manipulation &middot; Selective MFM&ndash;VLA Collaboration</span>
+    </div>
+
+    <h1 class="publication-title reveal reveal-delay-1">
+      <span class="grad">Ground, Guide, Act:</span> Improving VLA Spatial Generalization with Multimodal Foundation Models
+    </h1>
+
+    <p class="tagline reveal reveal-delay-1">
+      <b>Multimodal foundation models</b> localize task-aware 3D targets from calibrated RGB views and guide free-space motion, while <b>adapted VLA policies</b> retain closed-loop control over contact-rich manipulation.
+    </p>
+
+    <div class="authors reveal reveal-delay-2">
+      <span class="author"><a href="https://tom-zgt.github.io/" target="_blank" rel="noopener">Guangting Zheng</a><span class="sup">*</span>,</span>
+      <span class="author">Shaoxuan Wang<span class="sup">*</span>,</span>
+      <span class="author">Yu Yuan,</span>
+      <span class="author">Zhipeng Tang,</span>
+      <span class="author">Jiajun Deng,</span>
+      <span class="author">Yanyong Zhang</span>
+    </div>
+    <div class="affil-list reveal reveal-delay-2">
+      <span class="affil-item">University of Science and Technology of China</span>
+    </div>
+    <div class="tiny muted reveal reveal-delay-2" style="margin-top:.15rem;">
+      <span class="sup">*</span>Equal contribution &middot;
+      <code>{zgt,wangshaoxuan,yyhappier,tangzhipeng}@mail.ustc.edu.cn</code>,
+      <code>{dengjj,yanyongz}@ustc.edu.cn</code>
+    </div>
+
+    <div class="publication-links reveal reveal-delay-3">
+      <a class="btn" href="https://arxiv.org/pdf/2611.31452" target="_blank" rel="noopener">
+        <i class="fa-solid fa-file-pdf"></i> Paper (PDF)
+      </a>
+      <a class="btn is-dark" href="https://arxiv.org/abs/2611.31452" target="_blank" rel="noopener">
+        <i class="ai ai-arxiv"></i> arXiv
+      </a>
+      <a class="btn is-ghost" href="https://github.com/Tom-zgt/MFM-VLA" target="_blank" rel="noopener">
+        <i class="fa-brands fa-github"></i> Code
+      </a>
+      <button class="btn is-ghost open-reel-trigger" type="button">
+        <i class="fa-solid fa-film"></i> 4-Min Demo Reel
+      </button>
+      <a class="btn is-ghost" href="#demos">
+        <i class="fa-solid fa-circle-play"></i> 14 Paired Videos
+      </a>
+      <a class="btn is-ghost" href="#bibtex">
+        <i class="fa-solid fa-quote-left"></i> Cite
+      </a>
+    </div>
+
+    <div class="headline-stats reveal reveal-delay-4">
+      <div class="stat">
+        <span class="stat-platform">LIBERO-PRO &middot; 8,000 Eps</span>
+        <div class="stat-row">
+          <span class="num">69.8%</span>
+          <span class="delta">+14.9 pp</span>
+        </div>
+        <span class="lbl">Over standalone &pi;<sub>0.5</sub> (84.4% w/ Code Policy; 31.2% MFM call rate)</span>
+      </div>
+      <div class="stat">
+        <span class="stat-platform">ALOHA-Sim-PRO &middot; 14-DoF</span>
+        <div class="stat-row">
+          <span class="num">97.5%</span>
+          <span class="delta">+74.0 pp</span>
+        </div>
+        <span class="lbl">Perturbation avg. over &pi;<sub>0</sub> (92% Pos., 100% Task bimanual transfer)</span>
+      </div>
+      <div class="stat">
+        <span class="stat-platform">RoboCasa365 &middot; 2,500 Eps</span>
+        <div class="stat-row">
+          <span class="num">20.5%</span>
+          <span class="delta">30.3% w/ Code</span>
+        </div>
+        <span class="lbl">12-DoF mobile kitchens (17.1% vs. 7.1% on Composite-Seen)</span>
+      </div>
+      <div class="stat">
+        <span class="stat-platform">Franka&ndash;XHand &middot; RGB-Only</span>
+        <div class="stat-row">
+          <span class="num">54.4%</span>
+          <span class="delta">+39.1 pp</span>
+        </div>
+        <span class="lbl">Atomic clear glassware &amp; 31.7% (+30.9 pp) multi-stage chemistry</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==== 01 / ABSTRACT ==== -->
+<section id="abstract" class="section">
+  <div class="container narrow">
+    <div class="section-heading reveal">
+      <span class="eyebrow">01 / Abstract</span>
+      <h2>Bridging semantic spatial reasoning and closed-loop contact control</h2>
+    </div>
+    <div class="abstract-block reveal">
+      <p>
+        Vision-Language-Action (VLA) models effectively learn action policies from robot demonstrations,
+        but struggle to generalize to changes in object positions and task goals. General
+        <strong>multimodal foundation models (MFMs)</strong> offer complementary scene understanding and
+        spatial reasoning, yet remain slow and unreliable for direct fine-grained contact control.
+      </p>
+      <p>
+        To understand how MFMs can improve VLA spatial generalization, we conduct a systematic capability
+        analysis across four VLA/WAM architectures (\(\pi_{0.5}\), \(\pi_0\), OpenVLA-OFT, and OpenWAM)
+        using counterfactual instruction tests and atomic-stage interventions. We uncover pervasive
+        <strong>visual scene shortcuts</strong>&mdash;pretrained policies frequently retrieve memorized
+        training targets even under updated or empty instructions&mdash;and show that failures stem
+        primarily from <strong>target grounding and global spatial routing</strong>, while local
+        manipulation skills remain largely usable once the robot reaches the right target region.
+      </p>
+      <p>
+        Based on these findings, we propose <strong>MFM-VLA</strong>, a selective collaboration framework in
+        which an MFM provides depth-free 3D target grounding and spatial guidance, controllers execute
+        free-space motion, and the VLA retains closed-loop control over fine-grained manipulation. We
+        fine-tune the VLA with action-chunk-level <strong>Dense Geometric Captions (DGC)</strong> and
+        <strong>perturbed-state recovery</strong> data to improve local guidance following, paired with a
+        <strong>development-calibrated capability router</strong> to avoid unnecessary intervention. Across
+        LIBERO-PRO, ALOHA-Sim-PRO, RoboCasa365, and real-world chemistry tasks, MFM-VLA improves success
+        rates by <strong>14.9</strong>, <strong>74.0</strong>, <strong>3.6</strong>, and
+        <strong>30.9</strong> percentage points over the corresponding base VLAs, respectively.
+      </p>
+    </div>
+
+    <figure class="paper-figure reveal mt-3">
+      <img class="zoomable" src="static/images/fig1_shortcut.png"
+           alt="Generalization gaps and visual scene shortcuts in pretrained VLAs"
+           data-caption="Figure 1. Generalization gaps and visual scene shortcuts in pretrained VLAs.">
+      <figcaption>
+        <b>Figure 1. Generalization gaps and visual scene shortcuts in pretrained VLAs.</b>
+        (a) Official \(\pi_{0.5}\) maintains high success under Semantic (92.0%) and Object (80.2%)
+        variations on LIBERO-PRO, but drops sharply under Position (22.2%) and Task (25.1%) perturbations.
+        (b) Counterfactual instruction tests comparing updated instructions \(\ell_{\mathrm{new}}\) against
+        empty instructions \(\ell_{\emptyset}=\texttt{""}\) reveal 86%&ndash;96% Same-Lift agreement across
+        four architectures: familiar visual scenes trigger memorized target selection over language goals.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ==== 02 / CAPABILITY ANALYSIS ==== -->
+<section id="analysis" class="section is-soft">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">02 / Capability Diagnosis</span>
+      <h2>Why pretrained VLAs fail under spatial &amp; task shifts&mdash;and what remains intact</h2>
+      <p class="lead">
+        Decoupling <i>target identification</i>, <i>free-space transport</i>, and <i>contact execution</i>
+        across \(\pi_{0.5}\), \(\pi_0\), OpenVLA-OFT, and OpenWAM isolates the exact division of labor needed.
+      </p>
+    </div>
+
+    <div class="card-grid">
+      <div class="card reveal reveal-delay-1">
+        <span class="tag">Diagnosis A &middot; Visual Scene Shortcuts</span>
+        <h3>Familiar visual layouts override updated instructions</h3>
+        <p>
+          Under Task perturbations&mdash;keeping the scene fixed while instructing a new target
+          \(o_{\mathrm{new}}\)&mdash;pretrained VLAs rarely fail from unstable grasping; instead, they
+          reliably lift the <b>original training target</b> \(o_{\mathrm{train}}\).
+        </p>
+        <p>
+          Even when given an empty string \(\ell_\emptyset=\texttt{""}\), OpenVLA-OFT and OpenWAM lift
+          \(o_{\mathrm{train}}\) in <b>90.0%</b> and <b>92.0%</b> of episodes, with a <b>96.0%</b>
+          Same-Lift Rate against updated instructions (\(\pi_{0.5}\): 90.0% on LIBERO-10; \(\pi_0\): 86.0%
+          on ALOHA-Sim).
+        </p>
+        <div class="takeaway">
+          Local trajectory smoothing cannot fix a <b>visual scene shortcut</b>: explicit external target
+          grounding is essential to redirect scene-memorized behaviors.
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-2">
+        <span class="tag is-teal">Diagnosis B &middot; Atomic-Stage Staircase (PDIS)</span>
+        <h3>Free-space routing is the bottleneck; local contact skills survive</h3>
+        <p>
+          Our five-level <b>Phase-Decoupled Intervention Staircase (PDIS)</b> injects ground-truth spatial
+          guidance into Reach (\(\texttt{+R}\)), Carry (\(\texttt{+C}\)), both (\(\texttt{+RC}\)), and
+          Lower/Place (\(\texttt{+RCL}\)) over 390 perturbed episodes <i>with frozen VLA weights</i>.
+        </p>
+        <p>
+          Assisting Reach alone boosts \(\pi_{0.5}\)&rsquo;s target-lifting rate from <b>42.3% &rarr; 93.1%</b>
+          (Position) and <b>40.0% &rarr; 91.5%</b> (Task), while Reach + Carry (\(\texttt{+RC}\)) raises task
+          success from <b>13.8% &rarr; 68.5%</b> and <b>20.0% &rarr; 77.7%</b>. In contrast, zero-shot GPT-6
+          Astra waypoint control gets only <b>3.5%</b> success due to contact and release failures.
+        </p>
+        <div class="takeaway">
+          <b>MFMs excel at semantic 3D grounding and global routing</b>, whereas <b>VLAs remain crucial for
+          closed-loop contact manipulation</b>.
+        </div>
+      </div>
+    </div>
+
+    <div class="figure-grid cols-2 mt-3 reveal">
+      <figure class="paper-figure" style="margin-bottom:0;">
+        <img class="zoomable" src="static/images/fig2_pdis.png"
+             alt="Phase-Decoupled Intervention Staircase across VLA architectures"
+             data-caption="Figure 2(a). Visualization of atomic stage analysis (PDIS) across four VLA architectures.">
+        <figcaption>
+          <b>Figure 2(a). Phase-Decoupled Intervention Staircase (PDIS).</b>
+          Assisting free-space Reach (\(\texttt{+R}\)) and Carry (\(\texttt{+RC}\)) unlocks strong latent
+          manipulation skills across all four pretrained VLA backbones without modifying policy weights.
+        </figcaption>
+      </figure>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <caption><b>Figure 2(b). Atomic stage task success (%)</b> across four VLA architectures (390 perturbed episodes per setting).</caption>
+          <thead>
+            <tr>
+              <th>Architecture</th><th class="left">Split</th><th>Base</th><th>+R</th><th>+C</th><th>+RC</th><th>+RCL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>\(\pi_{0.5}\)</td><td class="left">Overall</td><td>44.1</td><td>63.3</td><td>54.1</td><td>78.7</td><td class="best">82.8</td></tr>
+            <tr><td>\(\pi_{0.5}\)</td><td class="left">Position</td><td>13.8</td><td>42.3</td><td>43.1</td><td>68.5</td><td class="best">71.5</td></tr>
+            <tr><td>\(\pi_{0.5}\)</td><td class="left">Task</td><td>20.0</td><td>57.7</td><td>27.7</td><td>77.7</td><td class="best">86.9</td></tr>
+            <tr><td>\(\pi_0\)</td><td class="left">Overall</td><td>30.8</td><td>32.1</td><td>35.6</td><td>53.1</td><td class="best">54.4</td></tr>
+            <tr><td>OpenVLA-OFT</td><td class="left">Overall</td><td>37.2</td><td>44.1</td><td>39.0</td><td>65.1</td><td class="best">66.4</td></tr>
+            <tr><td>OpenWAM</td><td class="left">Overall</td><td>45.4</td><td class="best">59.2</td><td>40.8</td><td>57.7</td><td>56.4</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==== 03 / METHOD ==== -->
+<section id="method" class="section">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">03 / Method</span>
+      <h2>MFM-VLA: Dense Geometric Adaptation, Calibrated Routing &amp; 3D Guidance</h2>
+      <p class="lead">
+        Connecting sparse MFM spatial reasoning with closed-loop VLA contact control purely from calibrated RGB cameras.
+      </p>
+    </div>
+
+    <figure class="paper-figure reveal">
+      <img class="zoomable" src="static/images/fig3_method.png"
+           alt="Overview of MFM-VLA architecture"
+           data-caption="Figure 3. Overview of MFM-VLA: Dense Geometric Policy Adaptation, Development-Calibrated Capability Routing, and Two-View 3D Spatial Guidance.">
+      <figcaption>
+        <b>Figure 3. Overview of MFM-VLA.</b>
+        Perturbed-state recovery rollouts and action-chunk Dense Geometric Captions prepare the VLA to follow
+        local geometric guidance and recover from off-trajectory handoffs. A frozen development-calibrated
+        router selects Direct vs. MFM-Assisted execution, where two-view RGB ray triangulation supplies 3D
+        targets (0.16 cm median XY error) for free-space guidance while the VLA executes contact phases.
+      </figcaption>
+    </figure>
+
+    <div class="figure-grid cols-2 reveal">
+      <div class="eq-block" style="margin:0;">
+        \[
+          c_i = \phi_{\mathrm{dense}}\!\left(o_i,\, p_i^{\mathrm{eef}},\, \hat{p}_{\mathrm{grasp}},\, \hat{p}_{\mathrm{place}}\right)
+        \]
+        <p class="eq-note">
+          <b>Action-Chunk Dense Geometric Caption (\(c_i\)):</b> Encodes structured <code>scene</code>,
+          <code>subgoal</code>, target-relative <code>geometry</code>
+          (\(\Delta p_i = \hat{p}_{\mathrm{active}} - p_i^{\mathrm{eef}}\)), and next-\(H\)-step motion primitives,
+          co-trained over \(\{\ell,\,[\ell; c_i],\,c_i\}\) so one policy supports both unassisted and guided execution.
+        </p>
+      </div>
+
+      <div class="eq-block" style="margin:0;">
+        \[
+          R(\tau) =
+          \begin{cases}
+            \mathrm{ASSISTED}, & \hat{S}_{\mathrm{assist}}(\tau) - \hat{S}_{\mathrm{direct}}(\tau) > \delta \;\land\; C(\tau)=1, \\
+            \mathrm{DIRECT},   & \text{otherwise.}
+          \end{cases}
+        \]
+        <p class="eq-note">
+          <b>Frozen Capability Router (\(R(\tau)\)):</b> Calibrated once on \(K{=}5\) development seeds per task and
+          frozen before evaluation, invoking MFM assistance on only <b>31.2%</b> of LIBERO-PRO episodes (5 of 16 suites).
+        </p>
+      </div>
+    </div>
+
+    <div class="stage-grid">
+      <div class="stage reveal reveal-delay-1">
+        <span class="stage-tag">01 &middot; Adaptation</span>
+        <h4>Dense Geometric Policy Adaptation</h4>
+        <p>
+          Demonstrations are augmented with controller-recorded <b>perturbed-state recovery</b> segments
+          \(\mathcal{T}^{(k)}=\{r_1^{(k)},\dots,r_{L_k}^{(k)}, a_n,\dots,a_N\}\) and chunk-level
+          <b>Dense Geometric Captions</b>, enabling reliable handoff entry into local manipulation basins.
+        </p>
+      </div>
+      <div class="stage reveal reveal-delay-2">
+        <span class="stage-tag">02 &middot; Routing</span>
+        <h4>Development-Calibrated Routing</h4>
+        <p>
+          Uniform MFM intervention degrades suites the VLA already solves well. Freezing \(R(\tau)\) from
+          paired Direct vs. Assisted development rollouts preserves zero-query VLA speed and fidelity whenever
+          external routing is unneeded.
+        </p>
+      </div>
+      <div class="stage reveal reveal-delay-3">
+        <span class="stage-tag">03 &middot; Guidance</span>
+        <h4>2-View RGB Grounding &amp; Watch-Carry</h4>
+        <p>
+          GPT-6 Astra grounds manipulation-specific points across two calibrated RGB views for 3D ray
+          triangulation (\(\hat{p}_{\mathrm{grasp}}, \hat{p}_{\mathrm{place}}\)), paired with Watch-and-Takeover
+          carry (\(W_0{=}20\) steps, \(3\,\mathrm{cm}\) progress gate) and bounded grasp retries.
+        </p>
+      </div>
+    </div>
+
+    <!-- Interactive 7-Stage Step-by-Step Pipeline Inspector -->
+    <div class="inspector-box reveal mt-3">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.85rem;">
+        <div>
+          <span class="tag">Interactive Pipeline Inspector</span>
+          <h3 style="margin:.25rem 0 0;font-size:1.14rem;">Inspect all 7 stages of an MFM-Assisted rollout</h3>
+        </div>
+        <span class="tiny muted">Episode: <code>libero_object_task</code> (Task 5, Init 18) &middot; Click frame to zoom</span>
+      </div>
+
+      <div class="step-pills" id="stepPills"></div>
+
+      <div class="inspector-grid">
+        <div class="inspector-frame">
+          <span class="actor-badge is-mfm" id="walkBadge">Capability Router</span>
+          <img class="zoomable" id="walkImg" src="static/walkthrough/step1_init.jpg"
+               alt="Interactive 7-stage MFM-VLA execution frame">
+        </div>
+        <div class="inspector-info">
+          <h4 id="walkTitle">Stage 1</h4>
+          <p id="walkDesc"></p>
+          <pre class="dgc-pre" id="walkDgc"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==== 04 / QUALITATIVE VIDEO DEMOS ==== -->
+<section id="demos" class="section is-soft">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">04 / Side-by-Side Rollouts</span>
+      <h2>Synchronized paired comparisons across simulation &amp; physical hardware</h2>
+      <p class="lead">
+        Each simulation pair rolls out from the <b>exact same initial scene and random seed</b>, comparing the
+        standalone base VLA (left) against <b>MFM-VLA</b> (right). Play, pause, seek, and replay stay locked in sync.
+      </p>
+    </div>
+
+    <div class="compare-toolbar reveal">
+      <div class="switch" id="demoSwitch">
+        <button data-filter="featured" class="is-on" type="button">Featured Highlights (6)</button>
+        <button data-filter="libero" type="button">LIBERO-PRO (3)</button>
+        <button data-filter="aloha" type="button">ALOHA-Sim-PRO (4)</button>
+        <button data-filter="robocasa" type="button">RoboCasa365 (3)</button>
+        <button data-filter="realworld" type="button">Real-World Glassware (4)</button>
+        <button data-filter="all" type="button">All 14 Pairs</button>
+      </div>
+      <button class="btn is-ghost open-reel-trigger" type="button" style="padding:.4rem .9rem;font-size:.82rem;">
+        <i class="fa-solid fa-expand"></i> Full 4-Min 1080p Reel
+      </button>
+    </div>
+
+    <div class="demo-list reveal" id="demoList"></div>
+  </div>
+</section>
+
+<!-- ==== 05 / MAIN QUANTITATIVE RESULTS ==== -->
+<section id="results" class="section">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">05 / Benchmark Results</span>
+      <h2>Quantitative evaluation across desktop, bimanual, and mobile manipulation</h2>
+      <p class="lead">
+        Evaluated across <b>8,000</b> episodes on LIBERO-PRO, <b>250</b> episodes on ALOHA-Sim-PRO,
+        and <b>2,500</b> episodes per method on RoboCasa365.
+      </p>
+    </div>
+
+    <div class="figure-grid cols-2 reveal">
+      <div class="table-wrap">
+        <table class="data-table">
+          <caption><b>Table 1. LIBERO-PRO success rates (%).</b> Test set excludes router-calibration seeds (0&ndash;4). <i>+Code Policy</i> adds task-specific primitives for non-prehensile skills.</caption>
+          <thead>
+            <tr>
+              <th>Split</th><th class="left">Method</th><th>Sem.</th><th>Obj.</th><th>Pos.</th><th>Task</th><th>Overall</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Test (7,200)</td><td class="left">Base \(\pi_{0.5}\)</td><td>91.7</td><td>80.2</td><td>22.1</td><td>25.1</td><td>54.8</td></tr>
+            <tr class="ours"><td>Test (7,200)</td><td class="left"><b>+ MFM-VLA (Ours)</b></td><td>95.4</td><td>83.8</td><td class="best">46.8</td><td class="best">51.2</td><td class="best">69.3</td></tr>
+            <tr class="ours-ext"><td>Test (7,200)</td><td class="left">+ MFM-VLA + Code Policy</td><td class="best-ext">96.7</td><td class="best-ext">87.9</td><td class="best-ext">79.2</td><td class="best-ext">70.9</td><td class="best-ext">83.7</td></tr>
+            <tr><td>Full (8,000)</td><td class="left">Base \(\pi_{0.5}\)</td><td>92.0</td><td>80.2</td><td>22.2</td><td>25.2</td><td>54.9</td></tr>
+            <tr class="ours"><td>Full (8,000)</td><td class="left"><b>+ MFM-VLA (Ours)</b></td><td>95.4</td><td>83.8</td><td class="best">47.5</td><td class="best">52.6</td><td class="best">69.8</td></tr>
+            <tr class="ours-ext"><td>Full (8,000)</td><td class="left">+ MFM-VLA + Code Policy</td><td class="best-ext">96.8</td><td class="best-ext">88.1</td><td class="best-ext">80.5</td><td class="best-ext">72.1</td><td class="best-ext">84.4</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <caption><b>Table 2. Zero-shot MFM waypoint control vs. MFM-VLA</b> on matched LIBERO-PRO episodes under \(1\times\) and \(3\times\) execution horizons.</caption>
+          <thead>
+            <tr>
+              <th>Method</th><th>Horizon</th><th>\(N\)</th><th>Sem.</th><th>Pos.</th><th>Task</th><th>Overall</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>GPT-6 Astra (direct)</td><td>\(1\times\)</td><td>171</td><td>6.9</td><td>1.8</td><td>1.8</td><td>3.5</td></tr>
+            <tr><td>Base \(\pi_{0.5}\)</td><td>\(1\times\)</td><td>171</td><td class="best">96.6</td><td>14.3</td><td>24.6</td><td>45.6</td></tr>
+            <tr class="ours"><td><b>MFM-VLA (Ours)</b></td><td>\(1\times\)</td><td>171</td><td>93.1</td><td class="best">55.4</td><td class="best">73.7</td><td class="best">74.3</td></tr>
+            <tr><td>GPT-6 Astra (direct)</td><td>\(3\times\)</td><td>179</td><td>10.2</td><td>10.0</td><td>6.7</td><td>8.9</td></tr>
+            <tr><td>Base \(\pi_{0.5}\)</td><td>\(3\times\)</td><td>179</td><td class="best">96.6</td><td>15.0</td><td>25.0</td><td>45.3</td></tr>
+            <tr class="ours"><td><b>MFM-VLA (Ours)</b></td><td>\(3\times\)</td><td>179</td><td>93.2</td><td class="best">55.0</td><td class="best">73.3</td><td class="best">73.7</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="figure-grid cols-2 mt-3 reveal">
+      <div class="table-wrap">
+        <table class="data-table">
+          <caption><b>Table 3. ALOHA-Sim-PRO 14-DoF bimanual transfer (%)</b> under the standard 400-step horizon (50 episodes per condition).</caption>
+          <thead>
+            <tr>
+              <th>Method</th><th>Orig.</th><th>Sem.</th><th>Obj.</th><th>Pos.</th><th>Task</th><th>Pert. Avg.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>\(\pi_0\)</td><td>70.0</td><td>40.0</td><td>54.0</td><td>0.0</td><td>0.0</td><td>23.5</td></tr>
+            <tr><td>DOT Policy</td><td>88.0</td><td>88.0</td><td>16.0</td><td>2.0</td><td>0.0</td><td>26.5</td></tr>
+            <tr><td>Diffusion Policy</td><td>92.0</td><td>92.0</td><td>42.0</td><td>4.0</td><td>0.0</td><td>34.5</td></tr>
+            <tr><td>ACT</td><td>86.0</td><td>86.0</td><td>80.0</td><td>2.0</td><td>0.0</td><td>42.0</td></tr>
+            <tr class="ours"><td><b>\(\pi_0\) + MFM-VLA (Ours)</b></td><td class="best">100.0</td><td class="best">100.0</td><td class="best">98.0</td><td class="best">92.0</td><td class="best">100.0</td><td class="best">97.5</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <caption><b>Table 4. RoboCasa365 mobile kitchen manipulation (%)</b> across 50 tasks (2,500 evaluation episodes per method).</caption>
+          <thead>
+            <tr>
+              <th>Method</th><th>Atomic</th><th>Comp.-Seen</th><th>Comp.-Unseen</th><th>Overall</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Diffusion Policy</td><td>15.7</td><td>0.2</td><td>1.3</td><td>6.1</td></tr>
+            <tr><td>\(\pi_0\)</td><td>34.6</td><td>6.1</td><td>1.1</td><td>14.8</td></tr>
+            <tr><td>\(\pi_{0.5}\)</td><td class="best">39.6</td><td>7.1</td><td>1.2</td><td>16.9</td></tr>
+            <tr class="ours"><td><b>\(\pi_{0.5}\) + MFM-VLA (Ours)</b></td><td>39.3</td><td class="best">17.1</td><td class="best">2.4</td><td class="best">20.5</td></tr>
+            <tr class="ours-ext"><td>+ MFM-VLA + Code Policy</td><td class="best-ext">51.8</td><td class="best-ext">18.1</td><td class="best-ext">18.3</td><td class="best-ext">30.3</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <figure class="paper-figure reveal mt-3">
+      <img class="zoomable" src="static/images/fig4_qualitative.png"
+           alt="Qualitative rollouts across simulation and real-world tasks"
+           data-caption="Figure 4. Qualitative rollouts across LIBERO-PRO, RoboCasa365, ALOHA-Sim-PRO, and real-world transparent glassware manipulation.">
+      <figcaption>
+        <b>Figure 4. Representative rollouts across simulation and physical benchmarks.</b>
+        Executions spanning target changes, repositioned articulated cabinets, unseen kitchen layouts,
+        OOD bimanual cube handover, and transparent glass funnel extraction and insertion.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ==== 06 / REAL-WORLD EVALUATION ==== -->
+<section id="realworld" class="section is-soft">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">06 / Real-World Chemistry Workstation</span>
+      <h2>RGB-only dexterous manipulation of transparent laboratory glassware</h2>
+      <p class="lead">
+        Standard depth cameras fail on clear borosilicate glassware due to refraction and specular reflections.
+        MFM-VLA triangulates 3D targets <b>purely from calibrated fixed and wrist RGB views</b> on a 7-DoF
+        Franka arm with a 12-DoF XHand.
+      </p>
+    </div>
+
+    <figure class="paper-figure is-narrow reveal">
+      <img class="zoomable" src="static/images/fig5_realworld_setup.png"
+           alt="Physical Franka-XHand laboratory glassware platform"
+           data-caption="Figure 5. Physical Franka–XHand laboratory manipulation setup with calibrated fixed and wrist RGB cameras (no depth input).">
+      <figcaption>
+        <b>Figure 5. Physical Franka&ndash;XHand chemistry platform.</b>
+        Evaluated across 11 atomic and multi-stage glassware tasks under <i>Scene Generalization</i>
+        (unseen distractors) and <i>Position Generalization</i> (displaced vessel poses), 20 physical trials per setting.
+      </figcaption>
+    </figure>
+
+    <div class="table-wrap reveal mt-3">
+      <table class="data-table">
+        <caption><b>Table 5. Real-world glassware success rates (%).</b> Entries report <code>Scene / Position</code> success over all 11 tasks (20 trials per task &times; setting; unweighted group means).</caption>
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Pick Beaker</th><th>Pick Cylinder</th><th>Balance</th><th>Place</th>
+            <th>Pick Funnel</th><th>Remove Funnel</th><th>Place Funnel</th><th>Return Funnel</th>
+            <th>Atomic Avg.</th>
+            <th>Mid Balance</th><th>Place Funnel</th><th>Return Funnel</th>
+            <th>Multi Avg.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Standalone \(\pi_{0.5}\)</td>
+            <td>0.0 / 0.0</td><td>0.0 / 0.0</td><td>85.0 / 25.0</td><td>0.0 / 45.0</td>
+            <td>15.0 / 0.0</td><td>30.0 / 0.0</td><td>15.0 / 0.0</td><td>30.0 / 0.0</td>
+            <td>15.3</td>
+            <td>0.0 / 0.0</td><td>5.0 / 0.0</td><td>0.0 / 0.0</td>
+            <td>0.8</td>
+          </tr>
+          <tr class="ours">
+            <td><b>\(\pi_{0.5}\) + MFM-VLA (Ours)</b></td>
+            <td class="best">80.0 / 90.0</td><td class="best">0.0 / 30.0</td><td class="best">95.0 / 40.0</td><td class="best">10.0 / 50.0</td>
+            <td class="best">80.0 / 75.0</td><td class="best">95.0 / 85.0</td><td class="best">40.0 / 30.0</td><td class="best">25.0 / 45.0</td>
+            <td class="best">54.4</td>
+            <td class="best">80.0 / 55.0</td><td class="best">10.0 / 15.0</td><td class="best">15.0 / 15.0</td>
+            <td class="best">31.7</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="takeaway reveal mt-3">
+      Depth-free two-view RGB grounding + dexterous XHand execution raises real-world atomic glassware success
+      from <b>15.3% &rarr; 54.4%</b> (+39.1 pp) and multi-stage chemistry workflows from <b>0.8% &rarr; 31.7%</b> (+30.9 pp).
+    </div>
+  </div>
+</section>
+
+<!-- ==== 07 / ABLATION STUDIES ==== -->
+<section id="ablations" class="section">
+  <div class="container">
+    <div class="section-heading reveal">
+      <span class="eyebrow">07 / Ablation Studies</span>
+      <h2>Dissecting policy adaptation, routing granularity, 3D grounding &amp; MFM scaling</h2>
+      <p class="lead">
+        Controlled ablations on the 800-episode held-out LIBERO-PRO split (<code>init 5&ndash;9</code>:
+        550 Direct + 250 Assisted episodes).
+      </p>
+    </div>
+
+    <div class="figure-grid cols-2 reveal">
+      <div class="table-wrap">
+        <table class="data-table">
+          <caption><b>Table 6. Component ablations</b> on 800 LIBERO-PRO episodes. Uniform intervention hurts Semantic/Object suites; selective routing + DGC adaptation act synergistically.</caption>
+          <thead>
+            <tr>
+              <th>Policy</th><th>Router</th><th>Sem.</th><th>Obj.</th><th>Pos.</th><th>Task</th><th>Overall</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Base \(\pi_{0.5}\)</td><td>No</td><td>92.5</td><td>81.0</td><td>20.5</td><td>28.0</td><td>55.5</td></tr>
+            <tr><td>Base \(\pi_{0.5}\)</td><td>Always</td><td>66.0</td><td>50.0</td><td>37.5</td><td>58.0</td><td>52.9</td></tr>
+            <tr><td>Adapted \(\pi_{0.5}\)</td><td>No</td><td class="best">95.5</td><td class="best">85.0</td><td>39.5</td><td>30.5</td><td>62.6</td></tr>
+            <tr><td>Base \(\pi_{0.5}\)</td><td>Yes</td><td>92.5</td><td>81.0</td><td>41.5</td><td>57.0</td><td>68.0</td></tr>
+            <tr><td>Adapted \(\pi_{0.5}\) (w/o DGC)</td><td>Yes</td><td class="best">95.5</td><td>81.0</td><td>54.5</td><td>56.5</td><td>71.9</td></tr>
+            <tr class="ours"><td><b>Adapted \(\pi_{0.5}\) (Full MFM-VLA)</b></td><td><b>Yes</b></td><td class="best">95.5</td><td class="best">85.0</td><td class="best">56.5</td><td class="best">63.5</td><td class="best">75.1</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <caption><b>Table 9. MFM backbone ablation</b> with fixed adapted VLA &amp; controllers. \(e_{xy}\) denotes median horizontal \((x,y)\) grounding error (cm).</caption>
+          <thead>
+            <tr>
+              <th>MFM Backbone</th><th>\(e_{xy}\) (cm) &darr;</th><th>&le;6 cm (%) &uarr;</th><th>Assisted (%)</th><th>Overall (%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Kimi K3</td><td>22.94</td><td>8.7</td><td>29.6</td><td>61.4</td></tr>
+            <tr><td>Qwen3-VL-30B</td><td>2.25</td><td>63.0</td><td>38.0</td><td>64.0</td></tr>
+            <tr><td>Gemini 4 Argon</td><td>2.75</td><td>76.1</td><td>58.4</td><td>70.4</td></tr>
+            <tr><td>Grok 4.7</td><td>0.92</td><td>91.3</td><td>59.2</td><td>70.6</td></tr>
+            <tr><td>GPT-5.6</td><td>0.57</td><td>93.5</td><td>60.4</td><td>71.0</td></tr>
+            <tr class="ours"><td><b>GPT-6 Astra (Default)</b></td><td class="best">0.16</td><td class="best">97.3</td><td class="best">73.6</td><td class="best">75.1</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <details class="detail-block reveal" open>
+        <summary>Routing granularity, two-view spatial guidance, and visual shortcut mitigation</summary>
+        <div class="detail-body">
+          <div class="figure-grid cols-3">
+            <div class="table-wrap">
+              <table class="data-table">
+                <caption><b>Table 7. Routing granularity</b> (800 eps).</caption>
+                <thead><tr><th>Strategy</th><th>Success (%)</th><th>MFM Calls (%)</th></tr></thead>
+                <tbody>
+                  <tr><td>All Direct</td><td>62.6</td><td>0.0</td></tr>
+                  <tr><td>All Guided</td><td>62.3</td><td>100.0</td></tr>
+                  <tr><td>Perturbation-level</td><td>74.1</td><td>50.0</td></tr>
+                  <tr class="ours"><td><b>Suite-level (Default)</b></td><td>75.1</td><td>31.2</td></tr>
+                  <tr class="ours-ext"><td>Task-level</td><td class="best-ext">78.5</td><td class="best-ext">27.5</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="table-wrap">
+              <table class="data-table">
+                <caption><b>Table 8. Spatial guidance components.</b></caption>
+                <thead><tr><th>Variant</th><th>Assisted</th><th>Overall</th></tr></thead>
+                <tbody>
+                  <tr><td>Adapted Direct</td><td>33.6</td><td>62.6</td></tr>
+                  <tr><td>Single-view grounding</td><td>45.6</td><td>66.4</td></tr>
+                  <tr><td>w/o Carry guidance</td><td>62.0</td><td>71.5</td></tr>
+                  <tr><td>w/o Grasp retries</td><td>69.2</td><td>73.8</td></tr>
+                  <tr class="ours"><td><b>Full MFM-VLA</b></td><td class="best">73.6</td><td class="best">75.1</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="table-wrap">
+              <table class="data-table">
+                <caption><b>Table 10. Shortcut mitigation</b> (200 Task-shift eps).</caption>
+                <thead><tr><th>Method</th><th>SR &uarr;</th><th>Lift \(o_{\mathrm{new}}\) &uarr;</th><th>Lift \(o_{\mathrm{train}}\) &darr;</th></tr></thead>
+                <tbody>
+                  <tr><td>Base \(\pi_{0.5}\)</td><td>22.5</td><td>33.0</td><td>40.0</td></tr>
+                  <tr><td>Adapted Direct</td><td>27.5</td><td>35.0</td><td>35.5</td></tr>
+                  <tr><td>Base + Guidance</td><td>61.0</td><td>75.5</td><td>8.5</td></tr>
+                  <tr class="ours"><td><b>MFM-VLA</b></td><td class="best">73.5</td><td class="best">81.5</td><td class="best">2.5</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p class="table-note">
+            Replacing two-view ray triangulation with single-view grounding reduces Assisted success from
+            <b>73.6% &rarr; 45.6%</b>. On the counterfactual Task-shift re-audit (Table 10), MFM-VLA boosts
+            instructed-target lifting from <b>33.0% &rarr; 81.5%</b> while cutting memorized training-target
+            lifting from <b>40.0% &rarr; 2.5%</b>.
+          </p>
+        </div>
+      </details>
+
+      <details class="detail-block reveal">
+        <summary>Replacing MFM grounding with GroundingDINO-Base &amp; verification diagnostics (Tables 11&ndash;12)</summary>
+        <div class="detail-body">
+          <div class="table-wrap">
+            <table class="data-table">
+              <caption><b>Tables 11&ndash;12. GroundingDINO-Base vs. MFM grounding, verification, and retry ablations</b> on LIBERO-PRO (<code>init 5&ndash;9</code>; Assisted \(N{=}250\), Overall \(N{=}800\)).</caption>
+              <thead>
+                <tr>
+                  <th>3D Grounding Module</th><th class="left">Verification / Retry Setting</th>
+                  <th>\(e_{xy}\) (cm) &darr;</th><th>&le;6 cm (%) &uarr;</th><th>Assisted (%)</th><th>Overall (%)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>GroundingDINO (top-edge)</td><td class="left">No MFM verify (proprio. only)</td><td>11.97</td><td>20.9</td><td>10.0</td><td>55.3</td></tr>
+                <tr><td>GroundingDINO (box center)</td><td class="left">No MFM verify (proprio. only)</td><td>9.04</td><td>49.1</td><td>16.4</td><td>57.3</td></tr>
+                <tr><td>GroundingDINO (box center)</td><td class="left">Live MFM visual (Qwen3-VL-30B)</td><td>9.04</td><td>49.1</td><td>17.2</td><td>57.5</td></tr>
+                <tr><td>GroundingDINO (box center)</td><td class="left">Sim target-ID oracle</td><td>9.04</td><td>49.1</td><td>17.2</td><td>57.5</td></tr>
+                <tr class="ours"><td><b>GPT-6 Astra</b></td><td class="left">Visual verify, no retry (\(M_{\mathrm{retry}}{=}0\))</td><td class="best">0.16</td><td class="best">97.3</td><td>69.2</td><td>73.8</td></tr>
+                <tr class="ours"><td><b>GPT-6 Astra</b></td><td class="left"><b>Visual verify + bounded retry (\(M_{\mathrm{retry}}{=}2\))</b></td><td class="best">0.16</td><td class="best">97.3</td><td class="best">73.6</td><td class="best">75.1</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">
+            Adding live MFM verification or even a simulation target-ID oracle to GroundingDINO lifts Assisted
+            success only from 16.4% &rarr; 17.2%, confirming that post-grasp verification cannot compensate for
+            inaccurate manipulation-point grounding, whereas upgrading 3D grounding to GPT-6 Astra lifts Assisted
+            success to <b>69.2%</b> (\(M_{\mathrm{retry}}{=}0\)) and <b>73.6%</b> (\(M_{\mathrm{retry}}{=}2\)).
+          </p>
+        </div>
+      </details>
+
+      <details class="detail-block reveal">
+        <summary>Router calibration budget (\(K{=}1\dots 5\)) and multi-seed sampling stability (Tables 13 &amp; 15)</summary>
+        <div class="detail-body">
+          <div class="figure-grid cols-2">
+            <div class="table-wrap">
+              <table class="data-table">
+                <caption><b>Table 13. Calibration budget \(K\)</b> across all \(\binom{5}{K}\) subsets (episode oracle: 80.9%).</caption>
+                <thead><tr><th>Budget \(K\)</th><th>Suite SR (%)</th><th>Suite Call (%)</th><th>Task SR (%)</th><th>Task Call (%)</th></tr></thead>
+                <tbody>
+                  <tr><td>\(K{=}1\)</td><td>75.1&plusmn;0.2</td><td>28.8</td><td>74.6&plusmn;0.9</td><td>18.2</td></tr>
+                  <tr><td>\(K{=}2\)</td><td>75.2&plusmn;0.2</td><td>28.1</td><td>76.1&plusmn;0.9</td><td>22.6</td></tr>
+                  <tr><td>\(K{=}3\)</td><td>75.2&plusmn;0.1</td><td>28.8</td><td>77.1&plusmn;0.7</td><td>25.0</td></tr>
+                  <tr><td>\(K{=}4\)</td><td>75.2&plusmn;0.1</td><td>30.0</td><td>78.0&plusmn;0.4</td><td>26.9</td></tr>
+                  <tr class="ours"><td><b>\(K{=}5\) (Default)</b></td><td class="best">75.1</td><td>31.2</td><td class="best">78.5</td><td>27.5</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="table-wrap">
+              <table class="data-table">
+                <caption><b>Table 15. Three independent action-sampling seeds</b> on LIBERO-PRO (mean &plusmn; std %, \(N{=}800\)/seed).</caption>
+                <thead><tr><th>Method</th><th>Sem.</th><th>Obj.</th><th>Pos.</th><th>Task</th><th>Overall</th></tr></thead>
+                <tbody>
+                  <tr><td>Base \(\pi_{0.5}\)</td><td>93.7&plusmn;1.3</td><td>82.3&plusmn;0.9</td><td>25.5&plusmn;3.5</td><td>25.5&plusmn;1.8</td><td>56.8&plusmn;0.9</td></tr>
+                  <tr class="ours"><td><b>MFM-VLA</b></td><td>93.5&plusmn;2.2</td><td class="best">82.8&plusmn;1.7</td><td class="best">53.3&plusmn;2.5</td><td class="best">59.5&plusmn;3.1</td><td class="best">72.3&plusmn;2.0</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="detail-block reveal">
+        <summary>Additional qualitative trajectory sheets from the Appendix (Figures 6&ndash;9)</summary>
+        <div class="detail-body">
+          <div class="figure-grid cols-2">
+            <figure class="paper-figure" style="margin-bottom:0;">
+              <img class="zoomable" src="static/images/supp_libero.png"
+                   alt="Figure 6: Qualitative comparisons on LIBERO-PRO"
+                   data-caption="Figure 6. Qualitative comparisons on LIBERO-PRO (upper: π0.5, lower: MFM-VLA).">
+              <figcaption><b>Figure 6.</b> LIBERO-PRO qualitative comparisons.</figcaption>
+            </figure>
+            <figure class="paper-figure" style="margin-bottom:0;">
+              <img class="zoomable" src="static/images/supp_aloha.png"
+                   alt="Figure 7: Qualitative comparisons on ALOHA-Sim-PRO"
+                   data-caption="Figure 7. Qualitative comparisons on ALOHA-Sim-PRO (upper: π0, lower: MFM-VLA).">
+              <figcaption><b>Figure 7.</b> ALOHA-Sim-PRO bimanual qualitative comparisons.</figcaption>
+            </figure>
+            <figure class="paper-figure" style="margin-bottom:0;">
+              <img class="zoomable" src="static/images/supp_robocasa.png"
+                   alt="Figure 8: Qualitative comparisons on RoboCasa365"
+                   data-caption="Figure 8. Qualitative comparisons on RoboCasa365 (upper: π0.5, lower: MFM-VLA).">
+              <figcaption><b>Figure 8.</b> RoboCasa365 unseen kitchen qualitative comparisons.</figcaption>
+            </figure>
+            <figure class="paper-figure" style="margin-bottom:0;">
+              <img class="zoomable" src="static/images/supp_realworld.png"
+                   alt="Figure 9: Qualitative results on real-world laboratory tasks"
+                   data-caption="Figure 9. Qualitative results on real-world laboratory tasks (Front-Left and Overhead views).">
+              <figcaption><b>Figure 9.</b> Real-world Franka&ndash;XHand transparent glassware executions.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ==== BIBTEX ==== -->
+<section id="bibtex" class="section is-soft">
+  <div class="container narrow">
+    <div class="section-heading reveal">
+      <span class="eyebrow">08 / Citation</span>
+      <h2>BibTeX</h2>
+    </div>
+    <div class="bibtex-block reveal">
+      <button class="copy-btn" type="button">Copy</button>
+<pre>@article{zheng2026mfmvla,
+  title   = {Ground, Guide, Act: Improving VLA Spatial Generalization with Multimodal Foundation Models},
+  author  = {Zheng, Guangting and Wang, Shaoxuan and Yuan, Yu and Tang, Zhipeng and Deng, Jiajun and Zhang, Yanyong},
+  journal = {arXiv preprint arXiv:2611.31452},
+  year    = {2026},
+  url     = {https://arxiv.org/abs/2611.31452}
+}</pre>
+    </div>
+    <p class="muted center tiny mt-2">
+      Correspondence &amp; inquiries: <a href="mailto:zgt@mail.ustc.edu.cn">zgt@mail.ustc.edu.cn</a> &middot;
+      arXiv: <a href="https://arxiv.org/abs/2611.31452" target="_blank" rel="noopener">2611.31452</a> &middot;
+      Code: <a href="https://github.com/Tom-zgt/MFM-VLA" target="_blank" rel="noopener">github.com/Tom-zgt/MFM-VLA</a>
+    </p>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div>
+    &copy; 2026 University of Science and Technology of China (USTC). All rights reserved.
+  </div>
+</footer>
+
+<!-- ==== Lightbox, Full-Reel Modal & Back-to-Top ==== -->
+<div class="lightbox" aria-hidden="true">
+  <button class="lb-btn lb-close" aria-label="Close" type="button">&#10005;</button>
+  <img alt="Figure preview">
+  <span class="lb-caption"></span>
+</div>
+
+<div class="video-modal" id="videoModal" aria-hidden="true">
+  <div class="video-modal-inner">
+    <div class="video-modal-head">
+      <span>MFM-VLA &mdash; Full 4-Benchmark Demo Reel (1080p)</span>
+      <button class="btn is-ghost" id="closeReelBtn" type="button" style="padding:.25rem .7rem;font-size:.8rem;">Close &#10005;</button>
+    </div>
+    <video id="reelPlayer" controls playsinline></video>
+  </div>
+</div>
+
+<button class="back-to-top" aria-label="Back to top" type="button">
+  <svg viewBox="0 0 24 24"><polyline points="6 14 12 8 18 14"/></svg>
+</button>
+
+<script src="static/js/index.js"></script>
+</body>
+</html>
