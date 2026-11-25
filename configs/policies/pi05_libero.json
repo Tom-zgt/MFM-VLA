@@ -1,0 +1,7 @@
+{
+ "policy": "pi05_libero (OpenPI)",
+ "handoff_offset_from_object_top_m": [0.030, 0.003, 0.077],
+ "frame": "robot base frame (LIBERO: aligned with world axes)",
+ "source": "median end-effector offset from the grasped object (xy from object position, z from object top) 15 steps before π0.5 first closes the gripper, over 77 successful π0.5 episodes on its own training tasks (original libero_object 10x5, libero_spatial 10x3); agent_manip/profile_vla_approach.py, reports/generic/vla_profile.jsonl",
+ "other_lags_m": {"10": [0.028, 0.000, 0.037], "20": [0.020, 0.006, 0.122]}
+}

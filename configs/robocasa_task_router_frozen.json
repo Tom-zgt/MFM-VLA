@@ -1,0 +1,252 @@
+{
+  "ArrangeBreadBasket": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "ArrangeTea": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "BreadSelection": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "CategorizeCondiments": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "CloseBlenderLid": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "CloseFridge": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 2,
+    "calib_assist_succ_of_5": 0
+  },
+  "CloseToasterOvenDoor": {
+    "route": "assist",
+    "calib_direct_succ_of_5": 2,
+    "calib_assist_succ_of_5": 5
+  },
+  "CoffeeSetupMug": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 1,
+    "calib_assist_succ_of_5": 0
+  },
+  "CuttingToolSelection": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 1,
+    "calib_assist_succ_of_5": 0
+  },
+  "DeliverStraw": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "GarnishPancake": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "GatherTableware": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "GetToastedBread": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "HeatKebabSandwich": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "KettleBoiling": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "LoadDishwasher": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "MakeIceLemonade": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "NavigateKitchen": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "OpenCabinet": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 2,
+    "calib_assist_succ_of_5": 0
+  },
+  "OpenDrawer": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 3,
+    "calib_assist_succ_of_5": 0
+  },
+  "OpenStandMixerHead": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 4,
+    "calib_assist_succ_of_5": 0
+  },
+  "PackIdenticalLunches": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "PanTransfer": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "PickPlaceCounterToCabinet": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 4,
+    "calib_assist_succ_of_5": 1
+  },
+  "PickPlaceCounterToStove": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 3,
+    "calib_assist_succ_of_5": 2
+  },
+  "PickPlaceDrawerToCounter": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "PickPlaceSinkToCounter": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 5,
+    "calib_assist_succ_of_5": 3
+  },
+  "PickPlaceToasterToCounter": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "PortionHotDogs": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "PreSoakPan": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 1,
+    "calib_assist_succ_of_5": 0
+  },
+  "PrepareCoffee": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "RecycleBottlesByType": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 1,
+    "calib_assist_succ_of_5": 1
+  },
+  "RinseSinkBasin": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "ScrubCuttingBoard": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "SearingMeat": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "SeparateFreezerRack": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "SetUpCuttingStation": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "SlideDishwasherRack": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 5,
+    "calib_assist_succ_of_5": 2
+  },
+  "StackBowlsCabinet": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 1,
+    "calib_assist_succ_of_5": 0
+  },
+  "SteamInMicrowave": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "StirVegetables": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "StoreLeftoversInBowl": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "TurnOffStove": {
+    "route": "assist",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 1
+  },
+  "TurnOnElectricKettle": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 1,
+    "calib_assist_succ_of_5": 0
+  },
+  "TurnOnMicrowave": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "TurnOnSinkFaucet": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 2,
+    "calib_assist_succ_of_5": 1
+  },
+  "WaffleReheat": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "WashFruitColander": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "WashLettuce": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  },
+  "WeighIngredients": {
+    "route": "direct",
+    "calib_direct_succ_of_5": 0,
+    "calib_assist_succ_of_5": 0
+  }
+}

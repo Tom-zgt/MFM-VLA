@@ -1,0 +1,11 @@
+{
+ "policy": "pi05_libero (OpenPI)",
+ "place_offset_from_target_top_m": [
+  0.0,
+  -0.017
+ ],
+ "held_bottom_above_target_top_m": 0.028,
+ "held_bottom_above_target_top_crossing_m": 0.058,
+ "frame": "robot base frame (LIBERO: aligned with world axes)",
+ "source": "pi05_libero_place.json plus the carry altitude: median over 32 successful π0.5 episodes on its own training tasks (vla_profile_v2.jsonl, container targets) of the held object's bottom above the target's top while the object is 5-10 cm from the target horizontally (p10 0.020, p90 0.095); agent_manip/profile_vla_carry.py"
+}

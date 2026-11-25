@@ -1,0 +1,38 @@
+{
+  "dgc_training_noise": {
+    "libero_pro_pos_noise_std_m": 0.025,
+    "libero_pro_source": "openpi/src/openpi/policies/libero_policy.py (LiberoDenseCaptionTransform)",
+    "robocasa365_pos_noise_std_m": 0.018,
+    "robocasa365_source": "openpi/src/openpi/training/robocasa_dense_dataset.py (RoboCasaDenseDataset)"
+  },
+  "grounding_error_metric": {
+    "definition": "Horizontal (x, y) Euclidean distance in cm between triangulated 3D top point and ground-truth object top center",
+    "consistent_across_main_and_suppl": true,
+    "main_table_source": "mfm_vla/eval_grounding_dino_ablation.py & build_and_eval_vlm_ablation.py (grasp_xy_err_cm)"
+  },
+  "evaluation_provenance": {
+    "libero_pro_direct_suites_all_5500_eps": "100% pure RGB VLA execution (0 MFM calls, 0 simulator privilege)",
+    "libero_pro_assisted_init_10_to_49_2000_eps": "100% online eval_g5.py with live GPT-6 Astra RGB grounding & 1,598 live check_grasp queries",
+    "libero_pro_ablation_init_5_to_9_250_assisted_eps": "eval_g5j_cached_vla.py replaying cached two-view 3D targets from live init 5..9 runs; retries disabled (M_retry=0) gives 69.2% Assisted / 73.8% Overall with zero simulator object checks; cached-replay retry gives 73.6% Assisted / 75.1% Overall",
+    "grounding_dino_ablation_init_5_to_9_250_assisted_eps": {
+      "no_mfm_verify_proprio_only": {
+        "assisted_succ": "41/250 (16.4%)",
+        "overall_succ": "458/800 (57.3%)"
+      },
+      "live_qwen3vl_30b_visual_verify": {
+        "assisted_succ": "43/250 (17.2%)",
+        "overall_succ": "460/800 (57.5%)",
+        "visual_checks": 246,
+        "regrasps": 76
+      },
+      "sim_target_id_oracle_diag": {
+        "assisted_succ": "43/250 (17.2%)",
+        "overall_succ": "460/800 (57.5%)",
+        "checks": 333,
+        "regrasps": 192
+      }
+    },
+    "aloha_sim_pro_all_eps": "100% online RGB + proprioception (eval_aloha_sim_pro.py)",
+    "robocasa365_2500_eps": "250 calibration (ep 0..4) + 2,250 held-out (ep 5..49), online RGB + proprioception (eval_robocasa.py)"
+  }
+}

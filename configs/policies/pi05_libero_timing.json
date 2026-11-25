@@ -1,0 +1,7 @@
+{
+ "policy": "pi05_libero (OpenPI)",
+ "first_lift_step_p50": 60,
+ "first_lift_step_p95": 86,
+ "stuck_if_no_lift_by_step": 90,
+ "source": "first step the grasped object is 3 cm above its start, over 99 successful π0.5 episodes from its initial pose on its own training tasks (original libero_object, libero_spatial, libero_goal); reports/generic/vla_profile_v2.jsonl. A description of the policy, not of any test task."
+}

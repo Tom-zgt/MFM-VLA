@@ -1,0 +1,8 @@
+{
+ "support_eef_z": {
+  "libero_object": {
+   "value": 0.0094,
+   "source": "end-effector z at which the open gripper stalls on the floor, measured once in libero_object_swap t0 init 0; replaced by online estimation in G2"
+  }
+ }
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "algorithm": "Manual-TaskRouter-v1",
+  "frozen": true,
+  "frozen_at": "2026-11-02",
+  "selection_split": "init 0--4",
+  "heldout_split": "init 5--49",
+  "tool": "dense-v3-hybrid",
+  "branches": {
+    "direct": "pi05_libero_dense_v3 with raw task instruction",
+    "g5j": "forced original G5j assist with pi05_libero_dense_v3 and raw task instruction"
+  },
+  "routes": {
+    "libero_10_lan": "direct",
+    "libero_10_object": "direct",
+    "libero_10_swap": "direct",
+    "libero_10_task": "direct",
+    "libero_goal_lan": "direct",
+    "libero_goal_object": "direct",
+    "libero_goal_swap": "g5j",
+    "libero_goal_task": "g5j",
+    "libero_object_lan": "direct",
+    "libero_object_object": "direct",
+    "libero_object_swap": "g5j",
+    "libero_object_task": "g5j",
+    "libero_spatial_lan": "direct",
+    "libero_spatial_object": "direct",
+    "libero_spatial_swap": "direct",
+    "libero_spatial_task": "g5j"
+  },
+  "evidence": {
+    "selection_episodes": 800,
+    "selection_successes": 593,
+    "heldout_check_episodes": 800,
+    "heldout_check_successes": 601,
+    "heldout_check_success_rate": 0.75125
+  },
+  "forbidden_updates": [
+    "Do not change routes from init 5--49 outcomes",
+    "Do not use suite success results to revise this manifest"
+  ]
+}

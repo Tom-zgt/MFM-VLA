@@ -1,0 +1,6 @@
+{
+  "policy": "pi05_libero (OpenPI, official open-gripper settle)",
+  "handoff_offset_from_object_top_m": [0.026, 0.004, 0.09],
+  "frame": "robot base frame (LIBERO: aligned with world axes)",
+  "source": "Recovered from the historical open-settle G5j profile/trajectories: median end-effector offset 15 steps before pi0.5 first closes the gripper."
+}

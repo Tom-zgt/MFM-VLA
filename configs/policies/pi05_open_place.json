@@ -1,0 +1,8 @@
+{
+  "policy": "pi05_libero (OpenPI, official open-gripper settle)",
+  "place_offset_from_target_top_m": [0.078, 0.038],
+  "held_bottom_above_target_top_m": 0.001,
+  "held_bottom_above_target_top_crossing_m": 0.047,
+  "frame": "robot base frame (LIBERO: aligned with world axes)",
+  "source": "Recovered from historical successful open-settle G5j carry trajectories. The release and crossing heights are exact historical medians; the XY offset is the rounded median reconstructed from 20 accepted multiview placements."
+}

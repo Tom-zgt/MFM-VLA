@@ -1,0 +1,7 @@
+{
+ "policy": "pi05_libero (OpenPI)",
+ "handoff_offset_from_object_top_m": [0.028, 0.000, 0.037],
+ "frame": "robot base frame (LIBERO: aligned with world axes)",
+ "source": "median end-effector offset from the grasped object (xy from object position, z from object top) 10 steps before π0.5 first closes the gripper, over 77 successful π0.5 episodes on its own training tasks; the latest hand-over in π0.5's own approach, which leaves it only the local grasp",
+ "see_also": "pi05_libero.json (15 steps before closing)"
+}
